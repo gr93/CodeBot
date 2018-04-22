@@ -4,6 +4,8 @@ from executeStmt import execStmt
 from executeStmt import getHelloWorld
 from executeStmt import getLanguages
 
+codeBot_Channel_ID = "Enter ID of channel you want code bot to run in"
+
 client = discord.Client()
 
 @client.event
@@ -16,12 +18,11 @@ async def on_ready():
 @client.event
 async def on_message(message):
     content = message.content.split(None, 2)
-    print(message.channel.id)
-    if message.channel.id == "42936799903221410" or message.channel.id == "42061486042480640":
+    if message.channel.id == codeBot_Channel_ID:
         if len(content) == 3 and content[0] == "!code": #Check if there is code being run
             try:
                 lang = content[1]
-                if content[0] == "!code" and content[2] == "HelloWorld": #Handle hello world requests
+                if content[0] == "!code" and content[2] == "HelloWorld": #Handle hello world request
                     await client.send_message(message.channel, getHelloWorld(lang))
                 else:
                     if(content[2].count("```") == 2):
@@ -37,14 +38,10 @@ async def on_message(message):
             await client.send_message(message.channel, help)
         elif content[0] == "!code" and content[1] == "languages":
             langList = getLanguages()
-            print(langList)
             msg = "List of languages:\n```\n"
             for lang in langList:
                 print(lang)
                 msg += lang + "\n"
             msg += "```"
             await client.send_message(message.channel, msg)
-    if message.channel.id == "30283938796337152" and message.content.startswith(";cs"):
-        await client.send_message(client.get_channel("42936799032721410"), message.content[4:])
-
-client.run('')
+client.run('Enter_token_here')
